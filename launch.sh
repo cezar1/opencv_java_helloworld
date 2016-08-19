@@ -1,6 +1,16 @@
 #!/bin/bash
 echo Java OpenCV Hello World Script
-export JAVA_HELLOWORLD_ARCH=x86_64
+JAVA_HELLOWORLD_ARCH_DYNAMIC=$(arch)
+echo "Identified from system architecture [$JAVA_HELLOWORLD_ARCH_DYNAMIC]"
+export JAVA_HELLOWORLD_ARCH=unknown
+if [ "$JAVA_HELLOWORLD_ARCH_DYNAMIC" = "armv7l" -o "$JAVA_HELLOWORLD_ARCH_DYNAMIC" = "x86_64" ]; then
+	JAVA_HELLOWORLD_ARCH=$JAVA_HELLOWORLD_ARCH_DYNAMIC
+fi
+if [ "$JAVA_HELLOWORLD_ARCH" = "unknown" ]; then
+	echo "Unknown architecture [$JAVA_HELLOWORLD_ARCH_DYNAMIC]"
+	exit ;
+fi 
+echo "Found supported architecture [$JAVA_HELLOWORLD_ARCH]"
 export JAVA_HELLOWORLD_OPENCV_VERSION=opencv-2413
 export JAVA_HELLOWORLD_REL_PATH_JAR=$JAVA_HELLOWORLD_ARCH/jar/$JAVA_HELLOWORLD_OPENCV_VERSION.jar
 export JAVA_HELLOWORLD_REL_PATH_SO=$JAVA_HELLOWORLD_ARCH/so/
